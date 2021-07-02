@@ -2,18 +2,18 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 public interface AccountDAO {
-    Account create(Account account);
 
-    List<Account> list();
+    Account getBalance(Long userId);
 
-    Account get(int id);
+    void update(Account amount, Long userId);
 
-    void update(Account account, int id);
+    int getAccountId(Long userId);
+    //not sure about these, but they feel ok
 
-    void delete(int id);
 
 
 }
