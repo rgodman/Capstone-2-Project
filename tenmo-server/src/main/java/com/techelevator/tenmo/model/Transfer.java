@@ -20,7 +20,7 @@ public class Transfer {
         this.accountToId = accountToId;
         this.amount = amount;
     }
-    
+
     public Long getTransferId() {
         return transferId;
     }
