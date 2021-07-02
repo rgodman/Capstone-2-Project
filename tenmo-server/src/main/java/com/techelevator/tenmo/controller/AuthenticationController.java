@@ -61,10 +61,7 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public BigDecimal getAccount(@PathVariable int userId, @PathVariable BigDecimal balance) {
-        return balance;
-    }
+
 
 
 

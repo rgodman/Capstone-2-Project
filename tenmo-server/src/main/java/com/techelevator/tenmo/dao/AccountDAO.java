@@ -7,15 +7,13 @@ import java.util.List;
 
 public interface AccountDAO {
 
-    Account create(Account account);
+    Account getBalance(Long userId);
 
-    List<Account> list();
+    void update(Account amount, Long userId);
 
-    Account get(int id) throws AccountNotFoundException;
+    int getAccountId(Long userId);
+    //not sure about these, but they feel ok
 
-    void update(Account account, int id);
-
-    void delete(int id);
 
 
 }
