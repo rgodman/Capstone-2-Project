@@ -14,16 +14,20 @@ public class Transfer {
     private String transferStatusDesc;
 
 
-//    public Transfer() {
+    public Transfer(Long accountFromId, Long accountToId, BigDecimal amount) {
 //        this.transferId = transferId;
 //        this.transferTypeId = transferTypeId;
 //        this.transferStatusId = transferStatusId;
-//        this.accountFromId = accountFromId;
-//        this.accountToId = accountToId;
-//        this.amount = amount;
+          this.accountFromId = accountFromId;
+          this.accountToId = accountToId;
+          this.amount = amount;
 //        this.transferTypeDesc = transferTypeDesc;
 //        this.transferStatusDesc = transferStatusDesc;
-//    }
+    }
+
+    public Transfer() {
+
+    }
 
 
     public Long getTransferId() {
