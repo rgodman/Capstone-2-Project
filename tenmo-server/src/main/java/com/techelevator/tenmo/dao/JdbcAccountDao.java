@@ -44,7 +44,7 @@ public class JdbcAccountDao implements AccountDAO {
         account.setAccountId(rowSet.getLong("account_id"));
         account.setUserID(rowSet.getLong("user_id"));
         account.setBalance(rowSet.getBigDecimal("balance"));
-        
+
         return account;
     }
 
