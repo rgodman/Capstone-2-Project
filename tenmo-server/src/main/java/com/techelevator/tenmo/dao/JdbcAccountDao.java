@@ -28,16 +28,23 @@ public class JdbcAccountDao implements AccountDAO {
         return account;
     }
 
-    
+    @Override
+    public void update(Account amount, Long userId) {
+        //I know we need more
+    }
 
-
-
+    @Override
+    public int getAccountId(Long userId) {
+        return 0;
+    }
+//need more
 
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
         account.setAccountId(rowSet.getLong("account_id"));
         account.setUserID(rowSet.getLong("user_id"));
         account.setBalance(rowSet.getBigDecimal("balance"));
+        
         return account;
     }
 
