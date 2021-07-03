@@ -7,9 +7,9 @@ import java.util.List;
 public interface TransferDao {
 
 
-    List<Transfer> viewTransfers(Long userId);
+    List<Transfer> viewAllTransfers(Long userId);
 
-    Transfer findByTransferId(Long transferId);
+    Transfer findTransferById(int transferId);
 
     List<Transfer> findTransfersByUser(Long userName);
 
