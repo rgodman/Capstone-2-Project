@@ -1,7 +1,9 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransferDao {
@@ -11,10 +13,12 @@ public interface TransferDao {
 
     Transfer findTransferById(int transferId);
 
-    List<Transfer> findTransfersByUser(Long userName);
+    List<Transfer> findTransfersByUser(String userName);
 
-    Transfer sendMoney();
+    void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount);
 
 
-    //do we need a sendBucks method here?  Or in the jdbc? Or in the Account controller?  All 3?
+
+
+
 }

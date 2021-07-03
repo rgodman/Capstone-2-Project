@@ -8,15 +8,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcTransfer implements TransferDao{
+public class JdbcTransferDao implements TransferDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public  JdbcTransfer(JdbcTemplate jdbcTemplate) {
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -66,7 +67,7 @@ public class JdbcTransfer implements TransferDao{
     //Errors with this one, but close
     @Override
     public List<Transfer> findTransfersByUser(String userName) {
-        Transfer transfer = new Transfer();
+        List<Transfer> transfersByUsername = new ArrayList<>();
         String sql = "SELECT t.*, uFrom.username AS userFrom, uTo.username AS userTo, ts.transfer_status_desc, tt.transfer_type_desc" +
                 "FROM transfers t " +
                 "JOIN accounts aFrom ON t.account_from = aFrom.account_id" +
@@ -78,17 +79,33 @@ public class JdbcTransfer implements TransferDao{
                 "WHERE username = ? OR aFrom.username = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userName);
-        if (results.next()) {
-            transfer = mapRowToTransfer(results);
-        } else {
-            throw new TransferNotFoundException();
+        while(results.next()) {
+            transfersByUsername.add(mapRowToTransfer(results));
         }
-        return transfer;
+        return transfersByUsername;
     }
 
     @Override
-    public Transfer sendMoney() {
-        return null;
+    public void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount) {
+        //write a get sql statement to get current balance of the FromAccount
+        String checkBalanceSql = "SELECT balance FROM accounts WHERE user_id = ?;";
+        //the results need to be compared to the amount desired to send >=
+        SqlRowSet result = jdbcTemplate.queryForRowSet(checkBalanceSql, accountFrom);
+        BigDecimal accountFromBalance;
+        if (result.next()) {
+            accountFromBalance = result.getBigDecimal("amount");
+        } else {
+            throw new TransferNotFoundException();
+        }
+
+        //write an if statement
+        if(accountFromBalance.compareTo(amount) >= 0){
+            //else
+            String sql = "INSERT INTO transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES(2,2,?,?,?)";
+            jdbcTemplate.update(sql, accountFrom, accountTo, amount);
+        }else {
+            throw new TransferNotFoundException();
+        }
     }
 
     private Transfer mapRowToTransfer(SqlRowSet rowSet) {

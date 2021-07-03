@@ -2,10 +2,12 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
+import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.view.ConsoleService;
 
 import java.math.BigDecimal;
@@ -30,7 +32,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private ConsoleService console;
     private AuthenticationService authenticationService;
     private AccountService accountService;
-//    private TransferService transferService;
+    private TransferService transferService;
 //	  private UserService userService;
 
     public static void main(String[] args) {
@@ -42,7 +44,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		this.console = console;
 		this.authenticationService = authenticationService;
 		this.accountService = accountService;
-//		this.transferService = transferService;
+		this.transferService = transferService;
 //		this.userService = userService;
     }
 
@@ -85,6 +87,8 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewTransferHistory() {
+		Transfer transfer = transferService.listTransfers(currentUser);
+		System.out.println("Here is the transfer history: " + transfer);
 		// TODO Auto-generated method stub
 		
 	}
