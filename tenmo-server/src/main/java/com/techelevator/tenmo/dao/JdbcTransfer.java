@@ -2,6 +2,8 @@ package com.techelevator.tenmo.dao;
 
 
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.TransferNotFoundException;
+import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -21,10 +23,16 @@ public class JdbcTransfer implements TransferDao{
 
     //need to figure out sql statement to grab these properly
     @Override
-    public List<Transfer> viewTransfers(Long userId) {
+    public List<Transfer> viewAllTransfers(Long userId) {
         List<Transfer> transfers = new ArrayList<>();
-        String sql = "";
-        SqlRowSet transferList = jdbcTemplate.queryForRowSet(sql, userId);
+        String sql = "SELECT t.*, uFrom.username AS userFrom, uTo.username AS userTo" +
+                "FROM transfers t" +
+                "JOIN accounts aFrom ON t.account_from = aFrom.account_id" +
+                "JOIN accounts aTo ON t.account_to = aTo.account_id" +
+                "JOIN users uFrom ON aFrom.user_id = uFrom.user_id" +
+                "JOIN users uTo ON aTo.user_id = uTo.user_id" +
+                "WHERE aFrom.user_id = ? OR aTo.user_id = ?";
+        SqlRowSet transferList = jdbcTemplate.queryForRowSet(sql, userId, userId);
         while(transferList.next()) {
             transfers.add(mapRowToTransfer(transferList));
         }
@@ -33,13 +41,49 @@ public class JdbcTransfer implements TransferDao{
 
 
     @Override
-    public Transfer findByTransferId(Long transferId) {
-        return null;
+    public Transfer findTransferById(int transferId) {
+        Transfer transfer = new Transfer();
+        String sql = "SELECT t.*, uFrom.username AS userFrom, uTo.username AS userTo, ts.transfer_status_desc, tt.transfer_type_desc" +
+                "FROM transfers t " +
+                "JOIN accounts aFrom ON t.account_from = aFrom.account_id" +
+                "JOIN accounts aTo ON t.account_to = aTo.account_id" +
+                "JOIN users uFrom ON aFrom.user_id = uFrom.user_id" +
+                "JOIN users uTo ON aTo.user_id = uTo.user_id" +
+                "JOIN transfer_statuses ts ON t.transfer_status_id = ts.transfer_status_id" +
+                "JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id" +
+                "WHERE t.transfer_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
+        if (results.next()) {
+            transfer = mapRowToTransfer(results);
+        } else {
+            throw new TransferNotFoundException();
+        }
+        return transfer;
     }
 
+
+    //Errors with this one, but close
     @Override
-    public List<Transfer> findTransfersByUser(Long userName) {
-        return null;
+    public List<Transfer> findTransfersByUser(String userName) {
+        Transfer transfer = new Transfer();
+        String sql = "SELECT t.*, uFrom.username AS userFrom, uTo.username AS userTo, ts.transfer_status_desc, tt.transfer_type_desc" +
+                "FROM transfers t " +
+                "JOIN accounts aFrom ON t.account_from = aFrom.account_id" +
+                "JOIN accounts aTo ON t.account_to = aTo.account_id" +
+                "JOIN users uFrom ON aFrom.user_id = uFrom.user_id" +
+                "JOIN users uTo ON aTo.user_id = uTo.user_id" +
+                "JOIN transfer_statuses ts ON t.transfer_status_id = ts.transfer_status_id" +
+                "JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id" +
+                "WHERE username = ? OR aFrom.username = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userName);
+        if (results.next()) {
+            transfer = mapRowToTransfer(results);
+        } else {
+            throw new TransferNotFoundException();
+        }
+        return transfer;
     }
 
     @Override
