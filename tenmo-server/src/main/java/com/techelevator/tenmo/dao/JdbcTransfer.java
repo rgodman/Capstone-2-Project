@@ -36,17 +36,7 @@ public class JdbcTransfer implements TransferDao{
         }
         return transfers;
     }
-    @Override
-    public List<Transfers> getAllTransfers(int userId) {
-
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
-        while (results.next() ) {
-            Transfers transfer = mapRowToTransfer(results);
-            list.add(transfer);
-        }
-        return list;
-    }
-
+    
 
     @Override
     public Transfer findByTransferId(Long transferId) {
