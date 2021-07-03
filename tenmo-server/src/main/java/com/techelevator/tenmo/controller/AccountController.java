@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 
 @RestController
@@ -25,7 +26,7 @@ public class AccountController {
 
 
     @RequestMapping(path = "balance/{id}", method = RequestMethod.PUT)
-    public Account update(@Valid @PathVariable Long id) {
+    public Account update(@Valid @PathVariable Long id, @RequestParam(defaultValue = "0") BigDecimal amount) {
         return accountDAO.getBalance(id);
     }
 }

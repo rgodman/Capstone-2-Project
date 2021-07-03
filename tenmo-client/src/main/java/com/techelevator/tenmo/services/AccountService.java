@@ -30,11 +30,11 @@ public class AccountService {
     public Account update(BigDecimal amount, Long userId) throws AccountServiceException {
         Account account = new Account();
         try {
-            restTemplate.exchange(API_BASE_URL + "balance/" + userId + "?amount=" + amount, HttpMethod.PUT, makeAccountEntity(account), Account.class).getBody();
+            restTemplate.put(API_BASE_URL + "balance/" + userId + "?amount=" + amount, HttpMethod.PUT, makeAccountEntity(account), Account.class);
         } catch (RestClientResponseException ex) {
             throw new AccountServiceException(ex.getRawStatusCode() + " : " + ex.getResponseBodyAsString());
         }
-        return null;
+        return account;
     }
 
     private HttpEntity makeAuthEntity(AuthenticatedUser currentUser) {
@@ -46,7 +46,7 @@ public class AccountService {
 
     private HttpEntity makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth();
+        headers.setBearerAuth(null);
         HttpEntity entity = new HttpEntity<>(headers);
         return entity;
     }
