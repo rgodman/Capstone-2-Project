@@ -30,6 +30,9 @@ public class JdbcAccountDao implements AccountDAO {
 
     @Override
     public void update(Account amount, Long userId) {
+        String sql = "UPDATE accounts SET balance = ? " +
+                "WHERE user_id = ?;";
+        jdbcTemplate.update(sql, amount.getBalance(), amount.getUserID());
         //I know we need more
     }
 
@@ -37,6 +40,7 @@ public class JdbcAccountDao implements AccountDAO {
     public int getAccountId(Long userId) {
         return 0;
     }
+
 //need more
 
     private Account mapRowToAccount(SqlRowSet rowSet) {

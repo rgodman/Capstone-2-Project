@@ -43,7 +43,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		this.authenticationService = authenticationService;
 		this.accountService = accountService;
 //		this.transferService = transferService;
-//		this.transferService = transferService;
+//		this.userService = userService;
     }
 
 	public void run() {
