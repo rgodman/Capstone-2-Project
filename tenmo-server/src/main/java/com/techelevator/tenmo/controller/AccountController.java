@@ -24,5 +24,8 @@ public class AccountController {
     }
 
 
-
+    @RequestMapping(path = "balance/{id}", method = RequestMethod.PUT)
+    public Account update(@Valid @PathVariable Long id) {
+        return accountDAO.getBalance(id);
+    }
 }
