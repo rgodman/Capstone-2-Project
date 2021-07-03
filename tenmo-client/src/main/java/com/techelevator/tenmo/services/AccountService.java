@@ -34,7 +34,7 @@ public class AccountService {
         } catch (RestClientResponseException ex) {
             throw new AccountServiceException(ex.getRawStatusCode() + " : " + ex.getResponseBodyAsString());
         }
-        return null;
+        return account;
     }
 
     private HttpEntity makeAuthEntity(AuthenticatedUser currentUser) {
@@ -46,7 +46,7 @@ public class AccountService {
 
     private HttpEntity makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth();
+        headers.setBearerAuth(null);
         HttpEntity entity = new HttpEntity<>(headers);
         return entity;
     }
