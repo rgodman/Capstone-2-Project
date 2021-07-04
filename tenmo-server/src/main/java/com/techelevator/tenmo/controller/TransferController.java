@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.security.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ public class TransferController {
 
     private UserDao userDao;
     private TransferDao transferDao;
+//    private final TokenProvider tokenProvider;
 
     public TransferController(UserDao userDao, TransferDao transferDao) {
         this.userDao = userDao;

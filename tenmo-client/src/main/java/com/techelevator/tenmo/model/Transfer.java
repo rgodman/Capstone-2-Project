@@ -99,8 +99,57 @@ public class Transfer {
 /*
     @Override
     public String toString() {
-        return String.format("%d    $ %.02f",
-                transferId, amount);
+        return String.format("%d $ %.02f", transferId, amount);
     }
-}
+
+    @Override
+    public String toString() {  //Should be in a child class Request(?), but that's not worth the time for this project
+        return String.format("%-10d %7s %-15s $%.2f", id, "To:", recipientName, amount);
+    }
+
+    @Override
+    public String toString() {
+	// TODO Auto-generated method stub
+	return "Transfer From ID: " + getTransfer_from() + " in the amount of: $" + getAmount() + " Was sent to: " + getTransfer_to();
+    }
+
+	@Override
+	public String toString() {
+		return " Transfers: " + transfer_id + " Transfer Type Id:" + transfer_type_id
+				+ " Transfer Status Id: " + transfer_status_id + " Account From: " + account_from + " Account to: "
+				+ account_to + " Amount: "+ amount;
+	}
+		public String transferToString(Transfer transfer) {
+		User user = new User();
+		String transferType = "";
+		String transferStatus = "";
+		String transferString = "";
+		if (transfer.getTransferTypeId() == 1) {
+			transferType = "Request";
+		} else transferType = "Send";
+		if (transfer.getTransferStatusId() == 1) {
+			transferStatus = "Pending";
+		} else if (transfer.getTransferStatusId() == 2) {
+			transferStatus = "Approved";
+		} else transferStatus = "Rejected";
+
+        transferString = "Id: " + transfer.getTransferId() + "\nType: " + transferType +
+	            "\nStatus: " + transferStatus + "\nTo: " + transfer.getAccountTo() + "\nFrom: " + transfer.getAccountFrom()+
+				"\nAmount: $" + transfer.getAmount();
+
+	    return transferString;
+	}
+
+		@Override
+	public String toString()
+	{
+		return "Transfer ID: " + this.getId() + ", Amount: $" + this.getAmount() + ", From: " + this.getUserFrom() + " To: " + this.getUserTo();
+	}
+
+
+
+
+
+
+
 */

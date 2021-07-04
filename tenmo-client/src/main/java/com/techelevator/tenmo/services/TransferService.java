@@ -24,7 +24,8 @@ public class TransferService {
 
     public Transfer listTransfers (AuthenticatedUser currentUser) {
     Transfer transfer = null;
-    return restTemplate.exchange(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Transfer.class).getBody();
+    return restTemplate.exchange(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET,
+            makeAuthEntity(currentUser), Transfer.class).getBody();
 
     }
 
