@@ -15,7 +15,7 @@ public class Transfer {
     private String userFrom;
     private String userTo;
 
-    public Transfer() {
+    public Transfer(AuthenticatedUser currentUser, BigDecimal amount) {
 
     }
 
