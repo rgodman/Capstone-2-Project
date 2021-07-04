@@ -22,7 +22,7 @@ public class TransferService {
 
     }
 
-    public Transfer listTransfers (AuthenticatedUser currentUser) {
+    public Transfer listAllTransfers(AuthenticatedUser currentUser) {
     Transfer transfer = null;
     return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Transfer.class).getBody();
 
@@ -30,7 +30,7 @@ public class TransferService {
 
     public void sendBucks(AuthenticatedUser currentUser, Long accountFrom, Long accountTo, BigDecimal amount) throws TransferServiceException{
         Transfer transfer = null;
-        return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId() + "+ amount);
+        return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId() + "+ amount");
 
 
     }

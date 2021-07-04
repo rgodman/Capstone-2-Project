@@ -18,7 +18,4 @@ public interface TransferDao {
     void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount);
 
 
-
-
-
 }

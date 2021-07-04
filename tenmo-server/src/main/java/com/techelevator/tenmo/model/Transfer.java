@@ -78,7 +78,7 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public String getTransferTypeDsc() {
+    public String getTransferTypeDesc() {
         return transferTypeDesc;
     }
 

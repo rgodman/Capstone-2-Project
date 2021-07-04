@@ -10,8 +10,6 @@ import com.techelevator.tenmo.services.AuthenticationServiceException;
 import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.view.ConsoleService;
 
-import java.math.BigDecimal;
-
 public class App {
 
 private static final String API_BASE_URL = "http://localhost:8080/";
@@ -87,7 +85,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewTransferHistory() {
-		Transfer transfer = transferService.listTransfers(currentUser);
+		Transfer transfer = transferService.listAllTransfers(currentUser);
 		System.out.println("Here is the transfer history: " + transfer);
 		// TODO Auto-generated method stub
 		
@@ -170,4 +168,3 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 }
 
 // testing the pull request, had to edit something here, test 2
-
