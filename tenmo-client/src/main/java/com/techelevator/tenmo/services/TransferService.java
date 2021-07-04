@@ -24,15 +24,13 @@ public class TransferService {
 
     public Transfer listTransfers (AuthenticatedUser currentUser) {
     Transfer transfer = null;
-    return restTemplate.exchange(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET,
-            makeAuthEntity(currentUser), Transfer.class).getBody();
+    return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Transfer.class).getBody();
 
     }
 
-    public void sendBucks(AuthenticatedUser currentUser, Long accountFrom, Long accountTo, BigDecimal amount) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        Transfer transfer = new Transfer();
+    public void sendBucks(AuthenticatedUser currentUser, Long accountFrom, Long accountTo, BigDecimal amount) throws TransferServiceException{
+        Transfer transfer = null;
+        return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId() + "+ amount);
 
 
     }
@@ -45,7 +43,7 @@ public class TransferService {
     }
 
     private HttpEntity makeTransAuthEntity(AuthenticatedUser currentUser, BigDecimal amount) {
-        Transfer moneyTransfer = new Transfer();
+        Transfer moneyTransfer = new Transfer(currentUser, amount);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(currentUser.getToken());
