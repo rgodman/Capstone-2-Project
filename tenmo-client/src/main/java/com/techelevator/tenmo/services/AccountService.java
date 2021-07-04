@@ -22,12 +22,15 @@ public class AccountService {
 
     }
 
+    //is this getting the account info? it looks like it is getting a Balance?
     public Account getAccount(AuthenticatedUser currentUser) {
         Account account = null;
         return restTemplate.exchange(API_BASE_URL + "balance/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Account.class).getBody();
     }
 
-    public Account update(BigDecimal amount, Long userId) throws AccountServiceException {
+    //This said just update, but what does it update? the account name, user name, etc are all things that can be
+    // updated, it looks like it updates the balance, so i made the naming more clear to "updateBalance"
+    public Account updateBalance(BigDecimal amount, Long userId) throws AccountServiceException {
         Account account = new Account();
         try {
             restTemplate.put(API_BASE_URL + "balance/" + userId + "?amount=" + amount, HttpMethod.PUT, makeAccountEntity(account), Account.class);
