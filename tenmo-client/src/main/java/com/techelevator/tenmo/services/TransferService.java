@@ -22,16 +22,15 @@ public class TransferService {
 
     }
 
-    public Transfer listAllTransfers(AuthenticatedUser currentUser) {
+    public Transfer listUserTransfers(AuthenticatedUser currentUser) {
     Transfer transfer = null;
-    return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Transfer.class).getBody();
+    return restTemplate.exchange(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(currentUser), Transfer.class).getBody();
 
     }
 
     public void sendBucks(AuthenticatedUser currentUser, Long accountFrom, Long accountTo, BigDecimal amount) throws TransferServiceException{
         Transfer transfer = null;
-        return restTemplate.put(API_BASE_URL + "transfers/" + currentUser.getUser().getId() + "+ amount");
-
+        transfer = restTemplate.postForObject(API_BASE_URL + "transfers/", makeTransAuthEntity(currentUser, amount), Transfer.class);
 
     }
 
@@ -41,13 +40,13 @@ public class TransferService {
         HttpEntity entity = new HttpEntity<>(headers);
         return entity;
     }
-
-    private HttpEntity makeTransAuthEntity(AuthenticatedUser currentUser, BigDecimal amount) {
+                                                                                    //new transfer object goes here
+    private HttpEntity<Transfer> makeTransAuthEntity(AuthenticatedUser currentUser, BigDecimal amount) {
         Transfer moneyTransfer = new Transfer(currentUser, amount);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(currentUser.getToken());
-        HttpEntity entity = new HttpEntity(moneyTransfer, headers);
+        HttpEntity<Transfer> entity = new HttpEntity(moneyTransfer, headers);
         return entity;
     }
 }

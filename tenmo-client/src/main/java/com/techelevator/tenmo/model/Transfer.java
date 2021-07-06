@@ -3,29 +3,20 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transfer {
-    private Integer transferId;
-    private Integer transferTypeId;
-    private Integer transferStatusId;
-    private Integer accountFrom;
-    private Integer accountTo;
+    private Long transferId;
+    private Long transferTypeId;
+    private Long transferStatusId;
+    private Long accountFrom;
+    private Long accountTo;
     private BigDecimal amount;
 
-    private String transferType;
-    private String transferStatus;
-    private String userFrom;
-    private String userTo;
-
-    public Transfer(AuthenticatedUser currentUser, BigDecimal amount) {
-
-    }
+    //private String transferType;
+    //private String transferStatus;
+    //private String userFrom;
+    //private String userTo;
 
 
-    public Transfer(Integer transferId,
-                    Integer transferTypeId,
-                    Integer transferStatusId,
-                    Integer accountFrom,
-                    Integer accountTo,
-                    BigDecimal amount) {
+    public Transfer(Long transferId, Long transferTypeId, Long transferStatusId, Long accountFrom, Long accountTo, BigDecimal amount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
@@ -34,66 +25,58 @@ public class Transfer {
         this.amount = amount;
     }
 
+    //Had a compile error in TransferService and it suggested this constructor...but i think it isn't necc, i need to do more in app and change makeTransAuth method
+    public Transfer(AuthenticatedUser currentUser, BigDecimal amount) {
+    }
 
-    public Integer getTransferId() {
+
+    public Long getTransferId() {
         return transferId;
     }
 
-
-    public void setTransferId(Integer transferId) {
+    public void setTransferId(Long transferId) {
         this.transferId = transferId;
     }
 
-
-    public Integer getTransferTypeId() {
+    public Long getTransferTypeId() {
         return transferTypeId;
     }
 
-
-    public void setTransferTypeId(Integer transferTypeId) {
+    public void setTransferTypeId(Long transferTypeId) {
         this.transferTypeId = transferTypeId;
     }
 
-
-    public Integer getTransferStatusId() {
+    public Long getTransferStatusId() {
         return transferStatusId;
     }
 
-
-    public void setTransferStatusId(Integer transferStatusId) {
+    public void setTransferStatusId(Long transferStatusId) {
         this.transferStatusId = transferStatusId;
     }
 
-
-    public Integer getAccountFrom() {
+    public Long getAccountFrom() {
         return accountFrom;
     }
 
-
-    public void setAccountFrom(Integer accountFrom) {
+    public void setAccountFrom(Long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-
-    public Integer getAccountTo() {
+    public Long getAccountTo() {
         return accountTo;
     }
 
-
-    public void setAccountTo(Integer accountTo) {
+    public void setAccountTo(Long accountTo) {
         this.accountTo = accountTo;
     }
-
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-
 }
 
 /*

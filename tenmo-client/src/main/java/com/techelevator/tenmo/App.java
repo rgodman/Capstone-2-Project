@@ -1,14 +1,10 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AccountService;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.AuthenticationServiceException;
-import com.techelevator.tenmo.services.TransferService;
+import com.techelevator.tenmo.model.*;
+import com.techelevator.tenmo.services.*;
 import com.techelevator.view.ConsoleService;
+
+import java.math.BigDecimal;
 
 public class App {
 
@@ -31,19 +27,19 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private AuthenticationService authenticationService;
     private AccountService accountService;
     private TransferService transferService;
-//	  private UserService userService;
+    private UserService userService;
 
     public static void main(String[] args) {
-    	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL), new AccountService(API_BASE_URL));
+    	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL), new AccountService(API_BASE_URL), new TransferService(API_BASE_URL), new UserService(API_BASE_URL));
     	app.run();
     }
 
-    public App(ConsoleService console, AuthenticationService authenticationService, AccountService accountService) {
+    public App(ConsoleService console, AuthenticationService authenticationService, AccountService accountService, TransferService transferService, UserService userService) {
 		this.console = console;
 		this.authenticationService = authenticationService;
 		this.accountService = accountService;
 		this.transferService = transferService;
-//		this.userService = userService;
+		this.userService = userService;
     }
 
 	public void run() {
@@ -78,16 +74,16 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewCurrentBalance() {
-		Account account = accountService.getAccount(currentUser);
+		Account account = accountService.getAccountById(currentUser);
 		System.out.println("Your current balance is: " + account.getBalance());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void viewTransferHistory() {
-		Transfer transfer = transferService.listAllTransfers(currentUser);
+		Transfer transfer = transferService.listUserTransfers(currentUser);
 		System.out.println("Here is the transfer history: " + transfer);
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -97,8 +93,21 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
+    		User[] users = userService.findAll(currentUser);
+    	//	Account[] accounts = accountService.getAllAccounts(currentUser);
+    		for (User u : users) {
+				System.out.println(u.toString());
+			}
+			Integer toUserId = console.getUserInputInteger("Select User Id to send TEbucks to");
+		//Need to pull the accountId related to the userId that is selected
+		//For (userId = userId) return the correct accountId?
+
+		//then need to select how much money(amount) to send - while checking to make sure you cant send more than your current balance
+
+		//need to create a Transfer object to plug back into the TransferService
+
+		//probably a lot more to do after this?
+
 	}
 
 	private void requestBucks() {
@@ -165,6 +174,8 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		String password = console.getUserInput("Password");
 		return new UserCredentials(username, password);
 	}
+
+
 }
 
 // testing the pull request, had to edit something here, test 2

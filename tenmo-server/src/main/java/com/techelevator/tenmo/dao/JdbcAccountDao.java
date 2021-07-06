@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -39,6 +40,17 @@ public class JdbcAccountDao implements AccountDAO {
     @Override
     public int getAccountId(Long userId) {
         return 0;
+    }
+
+    @Override
+    public List<Account> getAllAccounts(Long userId) {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT account_id, user_id FROM accounts;";
+        SqlRowSet accountList = jdbcTemplate.queryForRowSet(sql, userId);
+        while(accountList.next()) {
+            accounts.add(mapRowToAccount(accountList));
+        }
+        return accounts;
     }
 
 //need more
