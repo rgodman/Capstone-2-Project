@@ -29,10 +29,10 @@ public class TransferController {
     }
 
 
-    @RequestMapping(path = "transfers", method = RequestMethod.GET)
-    public List<Transfer> findTransfersByUser(@PathVariable String userName) {
-        return transferDao.findTransfersByUser(userName);
-    }
+//    @RequestMapping(path = "transfers", method = RequestMethod.GET)
+//    public List<Transfer> findTransfersByUser(@PathVariable String userName) {
+//        return transferDao.findTransfersByUser(userName);
+//    }
 
     @RequestMapping(path = "transfers", method = RequestMethod.GET)
     public List<Transfer> viewAllTransfers(@PathVariable Long userId) {
