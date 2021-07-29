@@ -15,7 +15,7 @@ public interface TransferDao {
 
     List<Transfer> findTransfersByUser(String userName);
 
-    void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount);
+    void sendBucks(String userFrom, Long accountTo, BigDecimal amount);
 
 
 }
