@@ -1,8 +1,10 @@
 package com.techelevator.tenmo.dao;
 
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferNotFoundException;
+import com.techelevator.tenmo.model.User;
 import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -17,8 +19,14 @@ public class JdbcTransferDao implements TransferDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+    private UserDao userDao;
+
+    private AccountDAO accountDao;
+
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate, UserDao userDao, AccountDAO accountDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userDao = userDao;
+        this.accountDao = accountDao;
     }
 
 
@@ -86,7 +94,11 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount) {
+    public void sendBucks(String userFrom, Long accountTo, BigDecimal amount) {
+        User user = userDao.findByUsername(userFrom);
+        Long userId = user.getId();
+        Account account = accountDao.getBalance(userId);
+        Long accountFrom = account.getAccountId();
         //write a get sql statement to get current balance of the FromAccount
         String checkBalanceSql = "SELECT balance FROM accounts WHERE user_id = ?;";
         //the results need to be compared to the amount desired to send >=

@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -34,14 +35,17 @@ public class TransferController {
 //        return transferDao.findTransfersByUser(userName);
 //    }
 
-    @RequestMapping(path = "transfers", method = RequestMethod.GET)
+    @RequestMapping(path = "/transfers", method = RequestMethod.GET)
     public List<Transfer> viewAllTransfers(@PathVariable Long userId) {
         return transferDao.viewAllTransfers(userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public void sendBucks(@RequestParam Long accountFrom, @RequestParam Long accountTo, @RequestParam BigDecimal amount) {
-        transferDao.sendBucks(accountTo, accountFrom, amount);
+    @RequestMapping(path = "/transfer", method = RequestMethod.POST)
+    public void sendBucks(@RequestBody Transfer transfer, Principal principal) {
+        transferDao.sendBucks(principal.getName(), transfer.getAccountToId(), transfer.getAmount());
+//        System.out.println(transfer.getAccountToId());
+//        System.out.println(transfer.getAmount());
+//        System.out.println(principal.getName());
     }
 }
